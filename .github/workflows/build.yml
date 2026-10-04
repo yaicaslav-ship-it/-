@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "mentionsound",
+  "version": "${version}",
+  "name": "Mention Sound",
+  "description": "Plays a custom sound when your nickname is mentioned in chat.",
+  "authors": ["You"],
+  "license": "MIT",
+  "environment": "client",
+  "entrypoints": {
+    "client": ["com.example.mentionsound.MentionSoundClient"]
+  },
+  "depends": {
+    "fabricloader": ">=0.16.10",
+    "minecraft": "~1.21.4",
+    "java": ">=21",
+    "fabric-api": "*"
+  }
+}
