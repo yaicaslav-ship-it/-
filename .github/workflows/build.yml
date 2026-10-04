@@ -1,19 +1,33 @@
-{
-  "schemaVersion": 1,
-  "id": "mentionsound",
-  "version": "${version}",
-  "name": "Mention Sound",
-  "description": "Plays a custom sound when your nickname is mentioned in chat.",
-  "authors": ["You"],
-  "license": "MIT",
-  "environment": "client",
-  "entrypoints": {
-    "client": ["com.example.mentionsound.MentionSoundClient"]
-  },
-  "depends": {
-    "fabricloader": ">=0.16.10",
-    "minecraft": "~1.21.4",
-    "java": ">=21",
-    "fabric-api": "*"
-  }
-}
+name: build
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: 8.12
+
+      - name: Build
+        run: gradle build
+
+      - name: Upload jar
+        uses: actions/upload-artifact@v4
+        with:
+          name: mentionsound
+          path: build/libs/*.jar
