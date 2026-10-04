@@ -23,11 +23,21 @@ jobs:
         with:
           gradle-version: 8.12
 
-      - name: Build
-        run: gradle build
+      - name: Unzip and build
+        run: |
+          unzip -q mentionsound.zip -d unpacked
+          SETTINGS=$(find unpacked -name settings.gradle | head -n 1)
+          if [ -z "$SETTINGS" ]; then
+            echo "settings.gradle not found inside mentionsound.zip" >&2
+            exit 1
+          fi
+          cd "$(dirname "$SETTINGS")"
+          gradle build
+          mkdir -p "$GITHUB_WORKSPACE/out"
+          cp build/libs/*.jar "$GITHUB_WORKSPACE/out/"
 
       - name: Upload jar
         uses: actions/upload-artifact@v4
         with:
           name: mentionsound
-          path: build/libs/*.jar
+          path: out/*.jar
